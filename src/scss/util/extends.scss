@@ -1,0 +1,39 @@
+.container
+{
+    width: 90rem;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.flex
+{
+    display: flex;
+    align-items: center;
+}
+
+.button
+{
+    display: inline-block;
+    background-color: none;
+    outline: none;
+    border: none;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 1rem;
+    background-color:rgb(167, 51, 167) ;
+    color: #fff;
+    padding: .8rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover
+    {
+        filter: brightness(120%);
+    }
+}
+.input
+{
+    display: block;
+    background-color: none;
+    outline: none;
+    border: none;
+    font-family: 'Josefin Sans', sans-serif;
+}

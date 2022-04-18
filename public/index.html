@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/da5f644e53.js" crossorigin="anonymous"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@300;400&family=Josefin+Sans:wght@300;500&family=Press+Start+2P&family=Red+Hat+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/index.css">
+    <script defer src="../src/conponents/main.js"></script>
+    <title>Todo List</title>
+</head>
+
+<body>
+    <main class="todo-list">
+        <header class="header">
+        </header>
+        <div class="layer">
+
+        </div>
+        <div class="container">
+                
+            <div class="list-container">
+                <h1 class="list-container__title">
+                    TODO - LIST
+                </h1>
+                <div data-list-button-container class="list-button-container">
+                    <div data-list-complete class="list-complete">
+                        <span data-list-count>0</span>/<span data-list-count>0</span>
+                    </div>
+                    <button data-list-container-button class="list-container__button">
+                        Borrar todo
+                    </button>
+                </div>
+                <ul data-list class="list">
+
+
+                </ul>
+
+            </div>
+
+            <form data-form action="" class="form">
+                <label for="Add Todo" class="form__label">Add Todo</label>
+                <input data-form-input class="form__input" type="text" maxlength="200">
+                <button data-form-button class="form__button" type="submit">
+                    Add
+                </button>
+            </form>
+
+            <template data-todo class="todo">
+                <li data-todo-item class="todo__item">
+                    <div class="todo__container todo__container--shrink">
+                        <input data-todo-checkbox type="checkbox" class="todo__checkbox">
+                        <span data-todo-span class="todo__span">
+                        </span>
+                    </div>
+                    
+                    <div class="todo__container todo__container--flex">
+                        <p data-todo-order class="todo__order">
+                        </p>
+                        <button data-todo-button class="todo__button" type="submit">
+                            <i data-todo-icon class="fa-solid fa-xmark fa-xl todo__icon"></i>
+                        </button>
+                    </div>
+                       
+                </li>
+            </template>
+        </div>
+        <div class="block">
+            
+        </div>
+    </main>
+</body>
+
+</html>

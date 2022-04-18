@@ -1,0 +1,239 @@
+@use '../util/extends.scss';
+
+.block
+{
+    background-color: rgb(23 23 35);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.container
+{
+    @extend .container,.flex;
+    position: absolute;
+    z-index: 999;
+    padding: 0 6.5rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.header
+{
+    padding: 10rem;
+    height: 25rem;
+    background-image: url('../dist/thumb-1920-520200.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 0 60%;
+    background-size: cover;
+}
+.layer
+{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 25rem;
+    background-image: linear-gradient(to right,rgba(229, 138, 252, 0.7),rgba(185, 11, 185, 0.7)) ;
+}
+.form
+{
+    @extend .flex;
+    width: 20rem;
+    max-width: 100%;
+    font-size: 2rem;
+    padding: 2rem;
+    color: rgb(255, 255, 255);
+    flex-direction: column;
+    background-color: rgb(49, 49, 87);
+    border-radius: 5px;
+    box-shadow: .5rem .5rem 1.2rem 0 rgb(14, 14, 14);
+    &__label
+    {
+        margin-bottom: 1rem;
+    }
+    &__input
+    {
+        @extend .input;
+        background-color: rgb(33, 33, 66);
+        color: #fff;
+        font-size: 1rem;
+        width: 100%;
+        padding: .8rem .8rem;
+        border-radius: .5rem;
+    }
+    &__button
+    {
+        @extend .button;
+        margin: 1rem 0 0 0;
+        
+    }
+}
+
+.list-container
+{
+    display: flex;
+    width: 40rem;
+    max-width: 100%;
+    flex-direction: column;
+    align-items: flex-end;
+    border-radius: 5px;
+    background-color: rgb(49, 49, 87);
+    box-shadow: .5rem .5rem 1.2rem 0 rgb(14, 14, 14);
+    &__title
+    {
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        padding: 2rem 0;
+    }
+    &__button
+    {
+        @extend .button; 
+        font-size: .8rem;
+        padding: .6rem .8rem;
+    }
+}
+
+.list
+{
+    color: #fff;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-height: 30rem;
+    overflow: auto;
+    &-complete
+    {
+        color: #fff;
+    }
+    &-complete.active 
+    {    
+       filter: brightness(200%);
+       color: rgb(60, 175, 60);
+    }
+    &-button-container
+    {
+       @extend .flex;
+       padding: 1.5rem;
+       width: 100%;
+       justify-content: space-between;
+       order: 3;
+    }
+}
+
+.todo
+{
+    &__item
+    {
+        @extend .flex;     
+        justify-content: space-between;
+        width: 100%;
+        padding: .8rem 1.2rem;
+        font-weight:lighter;
+        background-color: rgb(41, 41, 66);
+        border-bottom: 1px solid rgb(66, 66, 66);
+    }
+    &__item[data-checkable=true]
+    {
+        /* background-color:rgb(60, 60, 143); */
+        background-color: rgb(49, 49, 87);
+    }
+    &__item[data-check=true]
+    {
+        /* background-color:rgb(60, 60, 143); */
+        background-color:rgb(60, 60, 143);
+    }
+    &__item[data-checkable=true] input
+    {
+        /* background-color:rgb(60, 60, 143); */
+        pointer-events: auto;
+    }
+    &__container
+    {
+        @extend .flex;
+        gap: .5rem;
+        &--flex
+        {
+            justify-content: flex-end;
+            gap: 1rem;
+            width: 5%;
+        }
+        &--shrink
+        {
+            width: 95%;
+        }
+    }
+    &__span
+    {
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    &__checkbox
+    {
+       pointer-events: auto; 
+    }
+    &__checkbox.active
+    {
+        pointer-events: auto; 
+    }
+    &__button
+    {
+        display: inline-block;
+        outline: none;
+        border: none;
+        font-family: 'Josefin Sans', sans-serif;
+        background-color: transparent;
+        color: rgb(88, 88, 88);
+        cursor: pointer;
+    }
+}
+
+@media only screen and(max-width:1250px)
+{
+    .container
+    {
+        flex-direction: column;
+    }
+    .list
+    {
+        max-height: 350px;
+    }
+}
+
+@media only screen and(max-width:768px)
+{
+    .container
+    {
+        padding: 0 3rem;
+    }
+    .list-container
+    {
+        &__title
+        {
+            font-size: 1.5rem;
+        }
+    }
+    .list
+    {
+        max-height: 240px;
+    }
+    .form
+    {
+        padding: 1.5rem;
+        &__label
+        {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+
