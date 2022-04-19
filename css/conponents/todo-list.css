@@ -143,6 +143,7 @@
 
 .todo__item {
   justify-content: space-between;
+  cursor: grab;
   width: 100%;
   padding: 0.8rem 1.2rem;
   font-weight: lighter;

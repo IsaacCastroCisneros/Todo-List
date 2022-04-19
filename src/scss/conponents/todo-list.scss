@@ -71,7 +71,6 @@
     {
         @extend .button;
         margin: 1rem 0 0 0;
-        
     }
 }
 
@@ -133,6 +132,7 @@
     {
         @extend .flex;     
         justify-content: space-between;
+        cursor:grab;
         width: 100%;
         padding: .8rem 1.2rem;
         font-weight:lighter;

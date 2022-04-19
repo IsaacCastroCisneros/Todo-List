@@ -11,10 +11,18 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel ./public/index.html",
-    "build":"parcel build ./public/index.html"
+    "build": "parcel build ./public/index.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IsaacCastroCisneros/Todo-List.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IsaacCastroCisneros/Todo-List/issues"
+  },
+  "homepage": "https://github.com/IsaacCastroCisneros/Todo-List#readme",
   "description": ""
 }
