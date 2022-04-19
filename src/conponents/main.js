@@ -9,6 +9,7 @@ const deleteAllButton = document.querySelectorAll('[data-list-container-button]'
 import { v4 } from "uuid";
 
 const date = new Date();
+
 let LOCAL_STORAGE = `${date.getFullYear()}, ${date.getMonth()}, ${date.getDate()}`;
 
 let todoList = createtodoList();
@@ -172,6 +173,8 @@ list.addEventListener('click', (e) => {
     updateCheckCount();
     checkoutComplete();
     updateOrder();
+    firstCheckable();
+    checkable();
     createTodo();
     listCount[1].innerHTML = todoList.length;
 })
