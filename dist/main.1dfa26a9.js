@@ -957,10 +957,34 @@ var _stringify = _interopRequireDefault(require("./stringify.js"));
 var _parse = _interopRequireDefault(require("./parse.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./v1.js":"../node_modules/uuid/dist/esm-browser/v1.js","./v3.js":"../node_modules/uuid/dist/esm-browser/v3.js","./v4.js":"../node_modules/uuid/dist/esm-browser/v4.js","./v5.js":"../node_modules/uuid/dist/esm-browser/v5.js","./nil.js":"../node_modules/uuid/dist/esm-browser/nil.js","./version.js":"../node_modules/uuid/dist/esm-browser/version.js","./validate.js":"../node_modules/uuid/dist/esm-browser/validate.js","./stringify.js":"../node_modules/uuid/dist/esm-browser/stringify.js","./parse.js":"../node_modules/uuid/dist/esm-browser/parse.js"}],"../src/conponents/main.js":[function(require,module,exports) {
+},{"./v1.js":"../node_modules/uuid/dist/esm-browser/v1.js","./v3.js":"../node_modules/uuid/dist/esm-browser/v3.js","./v4.js":"../node_modules/uuid/dist/esm-browser/v4.js","./v5.js":"../node_modules/uuid/dist/esm-browser/v5.js","./nil.js":"../node_modules/uuid/dist/esm-browser/nil.js","./version.js":"../node_modules/uuid/dist/esm-browser/version.js","./validate.js":"../node_modules/uuid/dist/esm-browser/validate.js","./stringify.js":"../node_modules/uuid/dist/esm-browser/stringify.js","./parse.js":"../node_modules/uuid/dist/esm-browser/parse.js"}],"../src/util/addGlobalEventListener.js":[function(require,module,exports) {
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = addGlobalEventListener;
+
+function addGlobalEventListener(type, selector, callBack) {
+  document.addEventListener(type, function (e) {
+    if (e.target.closest(selector) !== null) {
+      callBack(e);
+    }
+  });
+}
+},{}],"../src/conponents/todo.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = todo;
+
 var _uuid = require("uuid");
+
+var _addGlobalEventListener = _interopRequireDefault(require("../util/addGlobalEventListener"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -980,7 +1004,6 @@ var template = document.querySelector('[data-todo]');
 var list = document.querySelector('[data-list]');
 var listCount = document.querySelectorAll('[data-list-count]');
 var listComplete = document.querySelector('[data-list-complete]');
-var deleteAllButton = document.querySelectorAll('[data-list-container-button]')[0];
 var date = new Date();
 var LOCAL_STORAGE = "".concat(date.getFullYear(), ", ").concat(date.getMonth(), ", ").concat(date.getDate());
 var todoList = createtodoList();
@@ -992,9 +1015,6 @@ var checkCount = todoList.filter(function (todo) {
 listCount[0].innerHTML = checkCount.length;
 /* ---------------------------------------------------------------------------------------------------------------- */
 
-firstCheckable();
-checkable();
-checkoutComplete();
 /* ---------------------------------------------------------------------------------------------------------------- */
 
 function createtodoList() {
@@ -1113,110 +1133,186 @@ function updateOrder() {
 /* ------------------------------------------------------------------------- */
 
 
-formAdd.addEventListener('submit', function (e) {
-  e.preventDefault();
-  var idUuid = (0, _uuid.v4)();
-  if (formInput.value === '') return;
-  var newTodo = {
-    name: formInput.value,
-    check: false,
-    order: 0,
-    checkable: false,
-    id: idUuid
-  };
-  todoList.push(newTodo);
-
-  if (todoList.length === 1) {
-    newTodo.order++;
-  }
-
-  defineOrder();
-  listCount[1].innerHTML = todoList.length;
-  showTodo(newTodo);
-  checkoutComplete();
-  formInput.value = '';
+function todo() {
   firstCheckable();
   checkable();
-  createTodo();
-});
-list.addEventListener('click', function (e) {
-  if (!e.target.matches('[data-todo-icon]')) return;
-  var listItem = e.target.closest('[data-todo-item]');
-  var todoId = listItem.dataset.id;
-  todoList = todoList.filter(function (todo) {
-    return todo.id !== todoId;
-  });
-  defineOrder();
-  listItem.remove();
-  updateCheckCount();
   checkoutComplete();
-  updateOrder();
-  firstCheckable();
-  checkable();
-  createTodo();
-  listCount[1].innerHTML = todoList.length;
-});
-list.addEventListener('change', function (e) {
-  if (!e.target.matches('[data-todo-checkbox]')) return;
-  var listItem = e.target.closest('[data-todo-item]');
-  var todoId = listItem.dataset.id;
-  var todoChecked = todoList.find(function (todo) {
-    return todo.id === todoId;
-  });
-  todoChecked.check = e.target.checked;
-  listItem.dataset.check = todoChecked.check;
-  /* checkbox.dataset.check=todoChecked.check; */
+  var dragId = 0;
+  var dragged;
+  (0, _addGlobalEventListener.default)('submit', '[data-form]', function (e) {
+    e.preventDefault();
+    var idUuid = (0, _uuid.v4)();
+    if (formInput.value === '') return;
+    var newTodo = {
+      name: formInput.value,
+      check: false,
+      order: 0,
+      checkable: false,
+      id: idUuid
+    };
+    todoList.push(newTodo);
 
-  firstCheckable();
-  checkable();
-  updateCheckCount();
-  checkoutComplete();
-  createTodo();
-});
-deleteAllButton.addEventListener('click', function () {
-  Array.from(list.children).forEach(function (child) {
-    child.remove();
+    if (todoList.length === 1) {
+      newTodo.order++;
+    }
+
+    defineOrder();
+    listCount[1].innerHTML = todoList.length;
+    showTodo(newTodo);
+    checkoutComplete();
+    formInput.value = '';
+    firstCheckable();
+    checkable();
+    createTodo();
   });
-  todoList = [];
-  createTodo();
-  listCount[0].innerHTML = 0;
-  listCount[1].innerHTML = 0;
-  updateCheckCount();
-  checkoutComplete();
-});
-var dragId = 0;
-var dragged;
-list.addEventListener('dragstart', function (e) {
-  if (e.target.closest('[data-todo-item]' === null)) return;
-  console.log('drag');
-  var todoDrag = todoList.find(function (todo) {
-    return todo.id === e.target.closest('[data-todo-item]').dataset.id;
+  (0, _addGlobalEventListener.default)('click', '[data-todo-icon]', function (e) {
+    var listItem = e.target.closest('[data-todo-item]');
+    var todoId = listItem.dataset.id;
+    todoList = todoList.filter(function (todo) {
+      return todo.id !== todoId;
+    });
+    defineOrder();
+    listItem.remove();
+    updateCheckCount();
+    checkoutComplete();
+    updateOrder();
+    firstCheckable();
+    checkable();
+    createTodo();
+    listCount[1].innerHTML = todoList.length;
   });
-  dragId = todoDrag.id;
-  dragged = e.target;
-});
-list.addEventListener('dragover', function (e) {
-  if (e.target.closest('[data-todo-item]' === null)) return;
-  e.preventDefault();
-});
-list.addEventListener('drop', function (e) {
-  if (e.target.closest('[data-todo-item]' === null)) return;
-  console.log('drop');
-  var todoDrop = todoList.find(function (todo) {
-    return todo.id === e.target.closest('[data-todo-item]').dataset.id;
+  (0, _addGlobalEventListener.default)('change', '[data-todo-checkbox]', function (e) {
+    var listItem = e.target.closest('[data-todo-item]');
+    var todoId = listItem.dataset.id;
+    var todoChecked = todoList.find(function (todo) {
+      return todo.id === todoId;
+    });
+    todoChecked.check = e.target.checked;
+    listItem.dataset.check = todoChecked.check;
+    firstCheckable();
+    checkable();
+    updateCheckCount();
+    checkoutComplete();
+    createTodo();
   });
-  var todoDrag = todoList.find(function (todo) {
-    return todo.id === dragId;
+  (0, _addGlobalEventListener.default)('click', '[data-list-container-button]', function (e) {
+    Array.from(list.children).forEach(function (child) {
+      child.remove();
+    });
+    todoList = [];
+    createTodo();
+    listCount[0].innerHTML = 0;
+    listCount[1].innerHTML = 0;
+    updateCheckCount();
+    checkoutComplete();
   });
-  var todoDragName = todoDrag.name;
-  var todoDropName = todoDrop.name;
-  e.target.closest('[data-todo-item]').querySelector('[data-todo-span]').textContent = todoDrag.name;
-  dragged.querySelector('[data-todo-span]').textContent = todoDrop.name;
-  todoDrag.name = todoDropName;
-  todoDrop.name = todoDragName;
-  createTodo();
-});
-},{"uuid":"../node_modules/uuid/dist/esm-browser/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+  (0, _addGlobalEventListener.default)('dragstart', '[data-todo-item]', function (e) {
+    e.dataTransfer.effectAllowed = "copyMove";
+    var todoDrag = todoList.find(function (todo) {
+      return todo.id === e.target.closest('[data-todo-item]').dataset.id;
+    });
+    dragId = todoDrag.id;
+    dragged = e.target;
+  });
+  (0, _addGlobalEventListener.default)('dragover', '[data-todo-item]', function (e) {
+    e.preventDefault();
+    e.target.closest('[data-todo-item]').style.borderColor = 'rgb(54, 54, 233)';
+  });
+  (0, _addGlobalEventListener.default)('dragleave', '[data-todo-item]', function (e) {
+    e.target.closest('[data-todo-item]').style.borderColor = 'transparent';
+  });
+  (0, _addGlobalEventListener.default)('drop', '[data-todo-item]', function (e) {
+    e.target.closest('[data-todo-item]').style.borderColor = 'transparent';
+    var todoDrop = todoList.find(function (todo) {
+      return todo.id === e.target.closest('[data-todo-item]').dataset.id;
+    });
+    var todoDrag = todoList.find(function (todo) {
+      return todo.id === dragId;
+    });
+    var todoDragName = todoDrag.name;
+    var todoDropName = todoDrop.name;
+    e.target.closest('[data-todo-item]').querySelector('[data-todo-span]').textContent = todoDrag.name;
+    dragged.querySelector('[data-todo-span]').textContent = todoDrop.name;
+    todoDrag.name = todoDropName;
+    todoDrop.name = todoDragName;
+    createTodo();
+  });
+}
+},{"uuid":"../node_modules/uuid/dist/esm-browser/index.js","../util/addGlobalEventListener":"../src/util/addGlobalEventListener.js"}],"../src/conponents/main.js":[function(require,module,exports) {
+"use strict";
+
+var _todo = _interopRequireDefault(require("./todo"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _todo.default)();
+/* list.addEventListener('change', (e) => 
+{
+    if (!e.target.matches('[data-todo-checkbox]')) return
+
+   
+}) */
+
+/* deleteAllButton.addEventListener('click', () => 
+{
+   
+}) */
+
+/* list.addEventListener('dragstart',(e)=>
+{
+    if(e.target.closest('[data-todo-item]')===null)return
+
+    e.dataTransfer.effectAllowed = "copyMove"; 
+    const todoDrag = todoList.find(todo => todo.id === e.target.closest('[data-todo-item]').dataset.id);
+    dragId = todoDrag.id; 
+    dragged=e.target;
+}) */
+
+/*    list.addEventListener('dragover',(e)=>
+  {
+      if(e.target.closest('[data-todo-item]')===null)return
+  
+      e.preventDefault();
+      e.target.closest('[data-todo-item]').style.borderColor='rgb(54, 54, 233)';
+  }) */
+
+/* let dragId=0;
+let dragged; */
+
+/* list.addEventListener('dragenter',(e)=>
+{
+    if(e.target.closest('[data-todo-item]')===null)return
+
+    e.dataTransfer.dropEffect = "copy";
+}) */
+
+/* list.addEventListener('dragleave',(e)=>
+   {
+       if(e.target.closest('[data-todo-item]')===null)return
+    
+       
+   }) */
+
+/* list.addEventListener('drop',(e)=>
+{
+    if(e.target.closest('[data-todo-item]')===null)return
+
+    e.target.closest('[data-todo-item]').style.borderColor='transparent';
+    const todoDrop = todoList.find(todo => todo.id === e.target.closest('[data-todo-item]').dataset.id);
+    const todoDrag = todoList.find(todo => todo.id === dragId);
+
+    const todoDragName = todoDrag.name;
+    const todoDropName = todoDrop.name;
+
+    e.target.closest('[data-todo-item]').querySelector('[data-todo-span]').textContent=todoDrag.name;
+    dragged.querySelector('[data-todo-span]').textContent=todoDrop.name;
+    
+    todoDrag.name = todoDropName;
+    todoDrop.name = todoDragName;
+
+    createTodo();
+}) */
+},{"./todo":"../src/conponents/todo.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -1244,7 +1340,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51757" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60671" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
