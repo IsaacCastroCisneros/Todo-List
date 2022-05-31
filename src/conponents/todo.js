@@ -155,7 +155,7 @@ export default function todo()
 
     window.addEventListener('click',e=>
     {
-        if(e.target.closest(['data-list'])===null)return
+        if(e.target.closest(['data-list'])===null) return
     })
 
     addGlobalEventListener('submit','[data-form]',(e)=>
