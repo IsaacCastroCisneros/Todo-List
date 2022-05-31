@@ -1013,9 +1013,6 @@ var checkCount = todoList.filter(function (todo) {
   return todo.check === true;
 });
 listCount[0].innerHTML = checkCount.length;
-/* ---------------------------------------------------------------------------------------------------------------- */
-
-/* ---------------------------------------------------------------------------------------------------------------- */
 
 function createtodoList() {
   var todo = localStorage.getItem(LOCAL_STORAGE);
@@ -1119,8 +1116,7 @@ function checkoutComplete() {
   } else {
     listComplete.classList.remove('active');
   }
-} //last modification
-
+}
 
 function updateOrder() {
   var todoOrder = document.querySelectorAll('[data-todo-item]');
@@ -1130,8 +1126,6 @@ function updateOrder() {
     todo.children[1].children[0].innerHTML = "".concat(todo.dataset.order);
   });
 }
-/* ------------------------------------------------------------------------- */
-
 
 function todo() {
   firstCheckable();
@@ -1139,6 +1133,9 @@ function todo() {
   checkoutComplete();
   var dragId = 0;
   var dragged;
+  window.addEventListener('click', function (e) {
+    if (e.target.closest(['data-list']) === null) return;
+  });
   (0, _addGlobalEventListener.default)('submit', '[data-form]', function (e) {
     e.preventDefault();
     var idUuid = (0, _uuid.v4)();
@@ -1207,7 +1204,9 @@ function todo() {
     checkoutComplete();
   });
   (0, _addGlobalEventListener.default)('dragstart', '[data-todo-item]', function (e) {
+    /* if(e.target.closest('[data-todo-item]') === null) return */
     e.dataTransfer.effectAllowed = "copyMove";
+    console.log(e.target);
     var todoDrag = todoList.find(function (todo) {
       return todo.id === e.target.closest('[data-todo-item]').dataset.id;
     });
@@ -1246,72 +1245,6 @@ var _todo = _interopRequireDefault(require("./todo"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _todo.default)();
-/* list.addEventListener('change', (e) => 
-{
-    if (!e.target.matches('[data-todo-checkbox]')) return
-
-   
-}) */
-
-/* deleteAllButton.addEventListener('click', () => 
-{
-   
-}) */
-
-/* list.addEventListener('dragstart',(e)=>
-{
-    if(e.target.closest('[data-todo-item]')===null)return
-
-    e.dataTransfer.effectAllowed = "copyMove"; 
-    const todoDrag = todoList.find(todo => todo.id === e.target.closest('[data-todo-item]').dataset.id);
-    dragId = todoDrag.id; 
-    dragged=e.target;
-}) */
-
-/*    list.addEventListener('dragover',(e)=>
-  {
-      if(e.target.closest('[data-todo-item]')===null)return
-  
-      e.preventDefault();
-      e.target.closest('[data-todo-item]').style.borderColor='rgb(54, 54, 233)';
-  }) */
-
-/* let dragId=0;
-let dragged; */
-
-/* list.addEventListener('dragenter',(e)=>
-{
-    if(e.target.closest('[data-todo-item]')===null)return
-
-    e.dataTransfer.dropEffect = "copy";
-}) */
-
-/* list.addEventListener('dragleave',(e)=>
-   {
-       if(e.target.closest('[data-todo-item]')===null)return
-    
-       
-   }) */
-
-/* list.addEventListener('drop',(e)=>
-{
-    if(e.target.closest('[data-todo-item]')===null)return
-
-    e.target.closest('[data-todo-item]').style.borderColor='transparent';
-    const todoDrop = todoList.find(todo => todo.id === e.target.closest('[data-todo-item]').dataset.id);
-    const todoDrag = todoList.find(todo => todo.id === dragId);
-
-    const todoDragName = todoDrag.name;
-    const todoDropName = todoDrop.name;
-
-    e.target.closest('[data-todo-item]').querySelector('[data-todo-span]').textContent=todoDrag.name;
-    dragged.querySelector('[data-todo-span]').textContent=todoDrop.name;
-    
-    todoDrag.name = todoDropName;
-    todoDrop.name = todoDragName;
-
-    createTodo();
-}) */
 },{"./todo":"../src/conponents/todo.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -1340,7 +1273,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60671" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50164" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

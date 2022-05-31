@@ -21,11 +21,6 @@ listCount[1].innerHTML = todoList.length;
 let checkCount = todoList.filter(todo => todo.check === true)
 listCount[0].innerHTML = checkCount.length;
 
-/* ---------------------------------------------------------------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------------------------------------------------------------- */
 
 function createtodoList() 
 {
@@ -136,7 +131,7 @@ function checkoutComplete()
         listComplete.classList.remove('active')
     }
 }
-//last modification
+
 function updateOrder() 
 {
     const todoOrder = document.querySelectorAll('[data-todo-item]');
@@ -148,9 +143,6 @@ function updateOrder()
     })
 }
 
-/* ------------------------------------------------------------------------- */
-
-
 
 export default function todo()
 {
@@ -160,6 +152,11 @@ export default function todo()
 
     let dragId=0;
     let dragged;
+
+    window.addEventListener('click',e=>
+    {
+        if(e.target.closest(['data-list'])===null)return
+    })
 
     addGlobalEventListener('submit','[data-form]',(e)=>
     {
@@ -244,7 +241,10 @@ export default function todo()
 
     addGlobalEventListener('dragstart','[data-todo-item]',e=>
     {
+        /* if(e.target.closest('[data-todo-item]') === null) return */
+
         e.dataTransfer.effectAllowed = "copyMove"; 
+        console.log(e.target)
         const todoDrag = todoList.find(todo => todo.id === e.target.closest('[data-todo-item]').dataset.id);
         dragId = todoDrag.id; 
         dragged=e.target;
